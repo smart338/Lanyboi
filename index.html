@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lanybois Ethical Hacking</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
+body{background:#0a0a0a;color:#fff;min-height:100vh}
+.login-wrap{display:flex;justify-content:center;align-items:center;height:100vh}
+.box{width:90%;max-width:380px;border:1px solid #a855f7;border-radius:12px;padding:24px;background:#111}
+.box h1{color:#d8b4fe;text-align:center;letter-spacing:3px}
+.sub{color:#96efac;text-align:center;margin:5px 0 20px;font-size:12px;letter-spacing:2px}
+input{width:100%;padding:12px;margin:8px 0;background:#000;border:1px solid #333;border-radius:8px;color:#fff}
+input:focus{border-color:#a855f7;outline:none}
+button{width:100%;padding:12px;margin-top:12px;background:linear-gradient(90deg,#a855f7,#22c55e);border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+#dash{display:none}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #222;background:#0f0f0f;position:sticky;top:0}
+.logo{color:#a855f7;font-weight:bold;letter-spacing:2px}
+nav{display:flex;gap:10px}
+nav span{padding:8px 14px;border-radius:20px;cursor:pointer;background:#1a1a1a;font-size:13px}
+nav span.active{background:#a855f7;color:#fff}
+.content{padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:#141414;border:1px solid #222;border-radius:12px;padding:16px}
+.card h3{color:#86efac;margin-bottom:10px}
+.stat{font-size:28px;color:#d8b4fe}
+.settings-box{max-width:500px}
+</style>
+</head>
+<body>
+
+<div id="login" class="login-wrap">
+<div class="box">
+<h1>LANYBOIS</h1>
+<div class="sub">ETHICAL HACKING LAB</div>
+<input id="user" placeholder="Username (lanybois)">
+<input id="pass" type="password" placeholder="Password (admin123)">
+<button onclick="login()">LOGIN TO LAB</button>
+<p style="font-size:11px;color:#666;margin-top:12px;text-align:center">Demo: lanybois / admin123</p>
+</div>
+</div>
+
+<div id="dash">
+<header>
+<div class="logo">LANYBOIS // LAB</div>
+<nav>
+<span id="m-dash" class="active" onclick="show('dashv')">Dashboard</span>
+<span id="m-set" onclick="show('setv')">Settings</span>
+<span onclick="logout()">Logout</span>
+</nav>
+</header>
+
+<div id="dashv" class="content">
+<div class="card"><h3>System Status</h3><div class="stat">ONLINE</div><p style="color:#aaa;font-size:12px;margin-top:8px">Lab environment active<br>Termux: Connected<br>Host: Permanent Cloud</p></div>
+<div class="card"><h3>Learning Modules</h3><p style="font-size:13px;line-height:22px">[OK] Linux Basics<br>[OK] Nmap Fundamentals<br>[OK] Hydra Lab<br>[..] Wireshark<br>[..] Metasploit Intro</p></div>
+<div class="card"><h3>Quick Tools (Lab Only)</h3><input id="target" placeholder="Target IP (e.g 127.0.0.1)"><button onclick="fakeScan()">SIMULATE SCAN</button><pre id="out" style="margin-top:10px;font-size:11px;color:#86efac;white-space:pre-wrap"></pre></div>
+<div class="card"><h3>Ethics Notice</h3><p style="color:#aaa;font-size:12px">For educational use only. Only scan systems you own or have permission to test. Lanybois promotes responsible hacking.</p></div>
+</div>
+
+<div id="setv" class="content" style="display:none">
+<div class="card settings-box"><h3>Settings</h3>
+<p style="margin-top:12px;color:#aaa;font-size:12px">Username</p><input value="lanybois">
+<p style="color:#aaa;font-size:12px">Lab Mode</p><input value="Safe / Educational">
+<p style="color:#aaa;font-size:12px">Theme</p><input value="Panther Purple + Neon Green">
+<button onclick="alert('Settings saved locally!')">SAVE SETTINGS</button>
+</div>
+</div>
+
+</div>
+
+<script>
+function login(){
+let u=document.getElementById('user').value.toLowerCase().trim();
+let p=document.getElementById('pass').value.trim();
+if(u==='lanybois' && p==='admin123'){
+document.getElementById('login').style.display='none';
+document.getElementById('dash').style.display='block';
+localStorage.setItem('lb','1');
+}else alert('Wrong! Use lanybois / admin123');
+}
+function show(v){
+document.getElementById('dashv').style.display=v==='dashv'?'grid':'none';
+document.getElementById('setv').style.display=v==='setv'?'grid':'none';
+document.getElementById('m-dash').className=v==='dashv'?'active':'';
+document.getElementById('m-set').className=v==='setv'?'active':'';
+}
+function logout(){localStorage.removeItem('lb');location.reload()}
+function fakeScan(){
+let out=document.getElementById('out');
+let t=document.getElementById('target').value||'127.0.0.1';
+out.textContent='[+] scanning '+t+'...\n[OK] 22/tcp open ssh\n[OK] 80/tcp open http\n[OK] 443/tcp open https\n\nScan complete - Lab simulation only.';
+}
+if(localStorage.getItem('lb')){document.getElementById('login').style.display='none';document.getElementById('dash').style.display='block';}
+</script>
+</body>
+</html>
